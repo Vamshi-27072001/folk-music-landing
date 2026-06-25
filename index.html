@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#E8621A" />
+  <title>India's Folk Music App — Get Free Early Access</title>
+  <meta name="description" content="Regional folk from every Indian state + mainstream music, together. Offline. No ads. Real discovery. Get free early access." />
+
+  <!-- ============================================================= -->
+  <!-- GOOGLE FONTS: Poppins (only external resource on the page).    -->
+  <!-- preconnect + display=swap keep this NON render-blocking.       -->
+  <!-- ============================================================= -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- ============================================================= -->
+  <!-- ███ META PIXEL — BASE CODE ███                                 -->
+  <!-- FOUNDER ACTION REQUIRED:                                       -->
+  <!--   Replace  YOUR_PIXEL_ID  below (appears ONCE) with the        -->
+  <!--   numeric Pixel ID from Meta Events Manager.                   -->
+  <!--   Example: fbq('init', '1234567890123456');                    -->
+  <!--   Until you do this, the Lead event simply no-ops (safe).      -->
+  <!-- ============================================================= -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+
+    /* ▼▼▼ REPLACE  YOUR_PIXEL_ID  WITH YOUR REAL META PIXEL ID ▼▼▼ */
+    fbq('init', 'YOUR_PIXEL_ID');
+    /* ▲▲▲ ------------------------------------------------------ ▲▲▲ */
+
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <!-- ▼ Also replace YOUR_PIXEL_ID in this fallback image URL ▼ -->
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" alt="" />
+  </noscript>
+  <!-- ███ END META PIXEL BASE CODE ███ -->
+
+  <style>
+    /* ---------- Design tokens ---------- */
+    :root {
+      --saffron: #E8621A;
+      --saffron-deep: #C44E10;
+      --bg: #FAF7F2;
+      --charcoal: #1A1A1A;
+      --muted: #5b554d;
+      --card: #ffffff;
+      --line: #ece5da;
+      --maxw: 640px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--charcoal);
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+    /* ---------- Sticky top bar ---------- */
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(250, 247, 242, 0.92);
+      backdrop-filter: saturate(160%) blur(8px);
+      -webkit-backdrop-filter: saturate(160%) blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar .wrap {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 58px;
+    }
+    .logo {
+      font-weight: 800; font-size: 18px; letter-spacing: -0.3px;
+      color: var(--charcoal); display: flex; align-items: center; gap: 8px;
+    }
+    .logo .dot {
+      display: inline-block; width: 22px; height: 22px; border-radius: 7px;
+      background: linear-gradient(135deg, var(--saffron), var(--saffron-deep));
+    }
+    .logo span { color: var(--saffron); }
+    .nav-cta {
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      color: var(--saffron-deep);
+      border: 1.5px solid var(--saffron); border-radius: 999px;
+      padding: 7px 14px; white-space: nowrap;
+    }
+    .nav-cta:active { background: var(--saffron); color: #fff; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      /* CSS gradient instead of a photo — zero image weight */
+      background:
+        radial-gradient(120% 90% at 80% -10%, rgba(232,98,26,0.22), transparent 60%),
+        radial-gradient(110% 80% at -10% 10%, rgba(196,78,16,0.18), transparent 55%),
+        linear-gradient(180deg, #fff7ef 0%, var(--bg) 100%);
+      padding: 40px 0 46px;
+      text-align: center;
+    }
+    .eyebrow {
+      display: inline-block; font-size: 12.5px; font-weight: 600;
+      letter-spacing: 0.6px; text-transform: uppercase;
+      color: var(--saffron-deep);
+      background: rgba(232,98,26,0.10);
+      border: 1px solid rgba(232,98,26,0.25);
+      padding: 6px 12px; border-radius: 999px; margin-bottom: 18px;
+    }
+    h1 {
+      font-size: 30px; line-height: 1.18; font-weight: 800;
+      letter-spacing: -0.6px; margin-bottom: 16px;
+    }
+    .sub {
+      font-size: 16px; color: var(--muted); margin: 0 auto 26px; max-width: 560px;
+    }
+
+    /* ---------- Sign-up form (shared styles) ---------- */
+    .signup {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 18px;
+      box-shadow: 0 10px 30px rgba(26,26,26,0.06);
+      text-align: left;
+      max-width: 460px; margin: 0 auto;
+    }
+    .signup label {
+      display: block; font-size: 13px; font-weight: 600;
+      margin: 0 0 6px; color: var(--charcoal);
+    }
+    .signup input,
+    .signup select {
+      width: 100%; font-family: inherit; font-size: 16px; /* 16px avoids iOS zoom */
+      color: var(--charcoal); background: #fff;
+      border: 1.5px solid var(--line); border-radius: 12px;
+      padding: 13px 14px; margin-bottom: 14px; outline: none;
+      appearance: none; -webkit-appearance: none;
+    }
+    .signup select {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231A1A1A' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");
+      background-repeat: no-repeat; background-position: right 14px center;
+      padding-right: 40px;
+    }
+    .signup input:focus,
+    .signup select:focus { border-color: var(--saffron); box-shadow: 0 0 0 3px rgba(232,98,26,0.15); }
+
+    .btn {
+      width: 100%; font-family: inherit; font-size: 16.5px; font-weight: 700;
+      color: #fff; cursor: pointer;
+      background: linear-gradient(135deg, var(--saffron), var(--saffron-deep));
+      border: none; border-radius: 12px; padding: 15px 16px;
+      box-shadow: 0 8px 20px rgba(232,98,26,0.28);
+      transition: transform 0.05s ease;
+    }
+    .btn:active { transform: translateY(1px); }
+    .form-note { font-size: 12px; color: var(--muted); text-align: center; margin-top: 10px; }
+
+    /* ---------- Generic section ---------- */
+    section { padding: 44px 0; }
+    .section-tag {
+      font-size: 12.5px; font-weight: 600; letter-spacing: 0.6px;
+      text-transform: uppercase; color: var(--saffron-deep); margin-bottom: 10px;
+    }
+    h2 { font-size: 23px; line-height: 1.25; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 14px; }
+    .lead { font-size: 16px; color: var(--muted); }
+
+    .problem { background: var(--charcoal); color: #f3efe9; }
+    .problem .section-tag { color: #ff9357; }
+    .problem .lead { color: #cfc8bd; }
+    .problem h2 { color: #fff; }
+
+    /* ---------- Value props ---------- */
+    .props { display: grid; gap: 14px; margin-top: 22px; }
+    .prop {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 16px; padding: 18px;
+    }
+    .prop .ic {
+      flex: 0 0 auto; width: 44px; height: 44px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: rgba(232,98,26,0.10); color: var(--saffron-deep);
+    }
+    .prop h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 3px; }
+    .prop p { font-size: 14.5px; color: var(--muted); }
+
+    /* ---------- Region grid ---------- */
+    .grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 22px; }
+    .tile {
+      background: var(--card); border: 1px solid var(--line);
+      border-left: 4px solid var(--saffron);
+      border-radius: 12px; padding: 14px 16px;
+    }
+    .tile .region { font-weight: 700; font-size: 15.5px; }
+    .tile .styles { font-size: 13.5px; color: var(--muted); margin-top: 2px; }
+
+    /* ---------- Final CTA ---------- */
+    .final-cta {
+      background:
+        radial-gradient(120% 90% at 10% 0%, rgba(232,98,26,0.18), transparent 60%),
+        linear-gradient(180deg, var(--bg), #fff7ef);
+      text-align: center;
+    }
+
+    /* ---------- Footer ---------- */
+    footer { padding: 28px 0 40px; text-align: center; color: var(--muted); font-size: 13px; }
+
+    /* ---------- Larger phones / tablets ---------- */
+    @media (min-width: 540px) {
+      h1 { font-size: 38px; }
+      h2 { font-size: 27px; }
+      .grid { grid-template-columns: 1fr 1fr; }
+      .hero { padding: 60px 0 64px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== (1) STICKY TOP BAR ===================== -->
+  <header class="topbar">
+    <div class="wrap">
+      <!-- LOGO PLACEHOLDER: swap text/.dot for an <img> logo if desired (keep it <80KB) -->
+      <div class="logo"><span class="dot"></span>Folk<span>India</span></div>
+      <a class="nav-cta" href="#get-access">Get Early Access</a>
+    </div>
+  </header>
+
+  <!-- ===================== (2) HERO + FORM ===================== -->
+  <section class="hero" id="get-access">
+    <div class="wrap">
+      <span class="eyebrow">🎶 India's Folk Music App — MVP</span>
+      <h1>Your folk songs have been waiting for the right home.</h1>
+      <p class="sub">Telangana Janapada. Punjabi Boliyan. Tamil Villuppattu. Bengali Baul. Whatever your roots — your regional music deserves to live alongside your Bollywood and chart favourites. In one app.</p>
+
+      <!-- SHARED SIGN-UP FORM (instance #1). Both forms use class="signup-form". -->
+      <form class="signup signup-form" novalidate>
+        <label for="email-1">Email address</label>
+        <input id="email-1" name="email" type="email" inputmode="email"
+               autocomplete="email" placeholder="you@example.com" required />
+
+        <label for="region-1">Which region's folk music do you listen to?</label>
+        <select id="region-1" name="region" required>
+          <option value="" disabled selected>Select your region…</option>
+          <option>Telangana / Andhra Pradesh</option>
+          <option>Punjab / Haryana</option>
+          <option>Tamil Nadu</option>
+          <option>Karnataka</option>
+          <option>Maharashtra</option>
+          <option>West Bengal</option>
+          <option>Rajasthan / Gujarat</option>
+          <option>Kerala</option>
+          <option>Bihar / UP / Bhojpuri</option>
+          <option>Assam / Northeast India</option>
+          <option>Other</option>
+        </select>
+
+        <button class="btn" type="submit">Get Free Early Access</button>
+        <p class="form-note">No spam. We'll email you the moment early access opens.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== (3) PROBLEM STATEMENT ===================== -->
+  <section class="problem">
+    <div class="wrap">
+      <p class="section-tag">The problem</p>
+      <h2>Two halves. Two apps. Endless switching.</h2>
+      <p class="lead">Every day, millions of Indians open Spotify for movie songs, then switch to YouTube for folk songs, deal with ads, can't play offline, and lose the thread. No platform has ever respected both halves of how Indians actually listen to music.</p>
+    </div>
+  </section>
+
+  <!-- ===================== (4) PROMISE / SOLUTION ===================== -->
+  <section>
+    <div class="wrap">
+      <p class="section-tag">The promise</p>
+      <h2>We are building that app.</h2>
+      <p class="lead">Regional folk from every state + mainstream music, together. Offline. No ads. Real discovery.</p>
+
+      <div class="props">
+        <div class="prop">
+          <div class="ic" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v6"/><path d="M9 10h6"/></svg>
+          </div>
+          <div>
+            <h3>Offline mode</h3>
+            <p>No internet needed once you've saved your playlist.</p>
+          </div>
+        </div>
+
+        <div class="prop">
+          <div class="ic" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg>
+          </div>
+          <div>
+            <h3>Zero ads</h3>
+            <p>Your folk songs play uninterrupted.</p>
+          </div>
+        </div>
+
+        <div class="prop">
+          <div class="ic" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+          </div>
+          <div>
+            <h3>Real discovery</h3>
+            <p>Curated regional folk from every Indian state, not YouTube's algorithm.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== (5) REGIONAL FOLK COVERAGE GRID (12 tiles) ===================== -->
+  <section>
+    <div class="wrap">
+      <p class="section-tag">Coverage</p>
+      <h2>Folk from every corner of India.</h2>
+      <p class="lead">From Janapada to Baul, Lavani to Bihu — your roots, all in one place.</p>
+
+      <div class="grid">
+        <div class="tile"><div class="region">Telangana / Andhra Pradesh</div><div class="styles">Janapada, Oggukatha</div></div>
+        <div class="tile"><div class="region">Punjab / Haryana</div><div class="styles">Boliyan, Tappe, Jugni</div></div>
+        <div class="tile"><div class="region">Tamil Nadu</div><div class="styles">Villuppattu, Kummi</div></div>
+        <div class="tile"><div class="region">Karnataka</div><div class="styles">Janapada Geete, Dollu Kunitha</div></div>
+        <div class="tile"><div class="region">Maharashtra</div><div class="styles">Lavani, Powada</div></div>
+        <div class="tile"><div class="region">West Bengal</div><div class="styles">Baul, Bhatiali</div></div>
+        <div class="tile"><div class="region">Rajasthan</div><div class="styles">Ghoomar, Kalbeliya, Maand</div></div>
+        <div class="tile"><div class="region">Gujarat</div><div class="styles">Garba, Dandiya</div></div>
+        <div class="tile"><div class="region">Kerala</div><div class="styles">Mappila songs, Nadanpattu</div></div>
+        <div class="tile"><div class="region">Bihar / UP</div><div class="styles">Birha, Chaita, Kajri</div></div>
+        <div class="tile"><div class="region">Assam / Northeast</div><div class="styles">Bihu, Borgeet</div></div>
+        <div class="tile"><div class="region">Odisha</div><div class="styles">Sambalpuri, Dalkhai</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== (6) SECOND CTA + FORM ===================== -->
+  <section class="final-cta">
+    <div class="wrap">
+      <p class="section-tag">Be first</p>
+      <h2>Get free early access.</h2>
+      <p class="lead" style="margin-bottom:22px;">Join the founding listeners shaping India's first folk-first music app.</p>
+
+      <!-- SHARED SIGN-UP FORM (instance #2) -->
+      <form class="signup signup-form" novalidate>
+        <label for="email-2">Email address</label>
+        <input id="email-2" name="email" type="email" inputmode="email"
+               autocomplete="email" placeholder="you@example.com" required />
+
+        <label for="region-2">Which region's folk music do you listen to?</label>
+        <select id="region-2" name="region" required>
+          <option value="" disabled selected>Select your region…</option>
+          <option>Telangana / Andhra Pradesh</option>
+          <option>Punjab / Haryana</option>
+          <option>Tamil Nadu</option>
+          <option>Karnataka</option>
+          <option>Maharashtra</option>
+          <option>West Bengal</option>
+          <option>Rajasthan / Gujarat</option>
+          <option>Kerala</option>
+          <option>Bihar / UP / Bhojpuri</option>
+          <option>Assam / Northeast India</option>
+          <option>Other</option>
+        </select>
+
+        <button class="btn" type="submit">Get Free Early Access</button>
+        <p class="form-note">No spam. We'll email you the moment early access opens.</p>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">© <span id="yr"></span> FolkIndia · Made for India's music, both halves of it.</div>
+  </footer>
+
+  <!-- ===================== APP LOGIC (deferred, non render-blocking) ===================== -->
+  <script defer>
+  (function () {
+    "use strict";
+
+    /* ============================================================= */
+    /* ███ CONFIG — FOUNDER: EDIT THESE 7 VALUES ONLY ███             */
+    /* ============================================================= */
+    var CONFIG = {
+      // 1) Meta Pixel ID is set in the <head> base code (search YOUR_PIXEL_ID).
+      //    Nothing to change here for the pixel.
+
+      // 2) Google Form POST endpoint. Open your Google Form's live URL,
+      //    change the trailing "/viewform" to "/formResponse".
+      //    Example: https://docs.google.com/forms/d/e/FORM_ID/formResponse
+      GOOGLE_FORM_ACTION_URL: "https://docs.google.com/forms/d/e/1FAIpQLScsMn5yYxgy7GgBGM_T97QC7iHJ9hup0I4ski0L1vN_IiI4Jg/formResponse",
+
+      // 3) Google Form field entry IDs (auto-generated by create-form.gs).
+      ENTRY_EMAIL:        "entry.1658823469", // maps to: Email
+      ENTRY_REGION:       "entry.1427476707", // maps to: Region (dropdown)
+      ENTRY_UTM_SOURCE:   "entry.1219720824", // maps to: UTM Source
+      ENTRY_UTM_CAMPAIGN: "entry.508986998",  // maps to: UTM Campaign
+
+      // 4) Survey redirect URL — the CLEAN Q1–Q6 survey users actually fill.
+      //    (The form above is the invisible lead-capture POST target.)
+      SURVEY_REDIRECT_URL: "https://docs.google.com/forms/d/e/1FAIpQLSd6eiS8vGbJrn7QH50uI0Czhm-pNkcOW4tT3pU0XL5rrZbxWw/viewform"
+    };
+    /* ███ END CONFIG ███ */
+    /* ============================================================= */
+
+    // Footer year
+    var yr = document.getElementById("yr");
+    if (yr) yr.textContent = new Date().getFullYear();
+
+    // --- Capture all UTM parameters from the current page URL ---
+    function getUTMs() {
+      var p = new URLSearchParams(window.location.search);
+      return {
+        utm_source:   p.get("utm_source")   || "",
+        utm_medium:   p.get("utm_medium")   || "",
+        utm_campaign: p.get("utm_campaign") || "",
+        utm_content:  p.get("utm_content")  || "",
+        utm_term:     p.get("utm_term")     || ""
+      };
+    }
+
+    // --- Build the survey redirect URL with UTMs carried through ---
+    function surveyUrlWithUTMs(utms) {
+      var base = CONFIG.SURVEY_REDIRECT_URL;
+      var qs = window.location.search; // already begins with "?" (or is empty)
+      if (!qs) return base;
+      return base + (base.indexOf("?") === -1 ? "?" : "&") + qs.slice(1);
+    }
+
+    // --- Silent POST to the Google Form (fire-and-forget; opaque response) ---
+    function postToGoogleForm(email, region, utms) {
+      // If the founder hasn't configured the form yet, skip the POST safely.
+      if (CONFIG.GOOGLE_FORM_ACTION_URL.indexOf("YOUR_FORM_ID") !== -1) return;
+
+      var fd = new FormData();
+      fd.append(CONFIG.ENTRY_EMAIL, email);
+      fd.append(CONFIG.ENTRY_REGION, region);
+      fd.append(CONFIG.ENTRY_UTM_SOURCE, utms.utm_source);
+      fd.append(CONFIG.ENTRY_UTM_CAMPAIGN, utms.utm_campaign);
+
+      // no-cors: Google Forms doesn't return CORS headers; the response is
+      // opaque (we can't read success), so we don't await it.
+      try {
+        fetch(CONFIG.GOOGLE_FORM_ACTION_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: fd
+        });
+      } catch (e) { /* swallow — never block the redirect */ }
+    }
+
+    // --- Fire Meta Pixel Lead event (guarded so it no-ops if pixel absent) ---
+    function fireLead() {
+      if (typeof window.fbq === "function") {
+        try { window.fbq("track", "Lead"); } catch (e) {}
+      }
+    }
+
+    // --- Shared submit handler for BOTH forms ---
+    function handleSubmit(e) {
+      e.preventDefault();
+      var form = e.currentTarget;
+      var email  = (form.querySelector('input[name="email"]')  || {}).value || "";
+      var region = (form.querySelector('select[name="region"]') || {}).value || "";
+
+      // Native validation guard
+      if (!form.checkValidity || !form.checkValidity()) {
+        if (form.reportValidity) form.reportValidity();
+        return;
+      }
+
+      var utms = getUTMs();
+
+      // (a) capture UTMs  -> done above
+      // (b) fire Meta Pixel Lead event
+      fireLead();
+      // (c) silently POST to Google Form
+      postToGoogleForm(email, region, utms);
+
+      // (d) redirect to the survey immediately, carrying UTMs through.
+      //     Tiny timeout gives the Lead beacon + POST a moment to dispatch.
+      var dest = surveyUrlWithUTMs(utms);
+      var btn = form.querySelector("button[type=submit]");
+      if (btn) { btn.disabled = true; btn.textContent = "Taking you to the survey…"; }
+
+      setTimeout(function () { window.location.href = dest; }, 350);
+    }
+
+    var forms = document.querySelectorAll(".signup-form");
+    for (var i = 0; i < forms.length; i++) {
+      forms[i].addEventListener("submit", handleSubmit);
+    }
+  })();
+  </script>
+
+  <!--
+  =================================================================
+   FOUNDER SETUP CHECKLIST — GO LIVE IN ~30 MINUTES (no coding)
+  =================================================================
+  Everything you edit lives in this single file. Search for the word
+  PLACEHOLDER / YOUR_ to find each spot. Steps:
+
+  ── STEP 1: META PIXEL ──────────────────────────────────────────
+   a. Go to Meta Events Manager (business.facebook.com/events_manager).
+   b. Create a Pixel (Data Source). Copy the numeric Pixel ID.
+   c. In this file's <head>, find  YOUR_PIXEL_ID  (it appears twice:
+      once in fbq('init', ...) and once in the <noscript> image URL).
+      Replace BOTH with your real Pixel ID.
+   d. The page already fires:
+        - 'PageView' on load
+        - 'Lead'     on every form submit (before redirect)
+
+  ── STEP 2: BUILD THE GOOGLE FORM (6 questions) ─────────────────
+   Create a new Google Form with these exact questions:
+     Q1. Which region's folk music do you listen to? (Checkboxes /
+         multi-select) — options:
+         Telangana/AP, Punjab/Haryana, Tamil Nadu, Karnataka,
+         Maharashtra, West Bengal, Rajasthan/Gujarat, Kerala,
+         Bihar/UP/Bhojpuri, Assam/Northeast India, Other
+     Q2. What music apps do you currently use? (Checkboxes) —
+         Spotify, YouTube, JioSaavn, Gaana, Apple Music, Hungama, Other
+     Q3. How often do you switch between apps to get all the music
+         you want? (Multiple choice / single select) —
+         Every single day / A few times a week / Occasionally /
+         Rarely — I've mostly given up on finding folk songs easily
+     Q4. What frustrates you most about how you listen to regional
+         folk music today? (Paragraph / open text)
+     Q5. If this app existed today, would you pay ₹99–149/month for
+         it? (Multiple choice) —
+         Yes, definitely — I'd pay even more / Probably yes /
+         Maybe, depends on how good the content is / No, only if it's free
+     Q6. What one feature would make this your daily music app?
+         (Paragraph / open text)
+   ALSO add these (so the landing page can pre-fill / pass them in):
+     - a Short-answer "Email" question
+     - a Short-answer "Region" question
+     - two Short-answer questions: "UTM Source" and "UTM Campaign"
+   Then link the form to a Google Sheet (Responses tab > green Sheets
+   icon). Your dashboard columns will be:
+     Date | Email | Region | UTM Source | UTM Campaign | Q3 Answer | Q5 Answer
+
+  ── STEP 3: GET THE ENTRY IDs + URLs ────────────────────────────
+   a. Open the live form (Send > link, or "preview" 👁 icon).
+   b. Right-click the EMAIL field > Inspect. Find name="entry.XXXXXXXX".
+      Copy that number. Repeat for Region, UTM Source, UTM Campaign.
+   c. In the CONFIG block of the <script> above, replace:
+        ENTRY_EMAIL, ENTRY_REGION, ENTRY_UTM_SOURCE, ENTRY_UTM_CAMPAIGN
+   d. Copy the live form URL. It ends in "/viewform".
+        - SURVEY_REDIRECT_URL  = that "/viewform" URL (where users land)
+        - GOOGLE_FORM_ACTION_URL = same URL but ending in "/formResponse"
+          (just change "viewform" to "formResponse")
+
+  ── STEP 4: PUBLISH ─────────────────────────────────────────────
+   Upload index.html to any static host (Netlify drag-and-drop,
+   GitHub Pages, Vercel, Hostinger, etc.). No server needed.
+
+  ── STEP 5: RUN ADS WITH THESE UTM LINKS ────────────────────────
+   Point each ad's destination URL to your page + the matching UTM:
+     Meta — Pain Point ......... ?utm_source=meta&utm_medium=paid&utm_campaign=pain_point
+     Meta — Cultural Identity .. ?utm_source=meta&utm_medium=paid&utm_campaign=cultural
+     Meta — Diaspora ........... ?utm_source=meta&utm_medium=paid&utm_campaign=diaspora
+     Google Ads — Round 2 ...... ?utm_source=google&utm_medium=cpc&utm_campaign=folk_search
+   Example full link:
+     https://yourdomain.com/?utm_source=meta&utm_medium=paid&utm_campaign=pain_point
+
+  ── HOW THE FLOW WORKS (for your peace of mind) ─────────────────
+   Ad click (with UTMs) -> Landing page -> user submits email+region ->
+   Meta Pixel 'Lead' fires -> data POSTed to Google Form (silent) ->
+   user redirected to the survey (UTMs carried through) -> survey
+   answers auto-fill your Google Sheet dashboard.
+  =================================================================
+  -->
+</body>
+</html>
