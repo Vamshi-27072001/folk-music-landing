@@ -8,6 +8,21 @@
   <meta name="description" content="Regional folk from every Indian state + mainstream music, together. Offline. No ads. Real discovery. Get free early access." />
 
   <!-- ============================================================= -->
+  <!-- ███ GOOGLE ANALYTICS 4 (gtag.js) ███                           -->
+  <!-- Placed high in <head> so it loads on every page view. The      -->
+  <!-- `async` attribute keeps it from blocking page render.          -->
+  <!-- Measurement ID: G-2W994H32PP                                   -->
+  <!-- ============================================================= -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2W994H32PP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2W994H32PP'); // auto-tracks page_view + sessions
+  </script>
+  <!-- ███ END GOOGLE ANALYTICS 4 ███ -->
+
+  <!-- ============================================================= -->
   <!-- GOOGLE FONTS: Poppins (only external resource on the page).    -->
   <!-- preconnect + display=swap keep this NON render-blocking.       -->
   <!-- ============================================================= -->
@@ -460,6 +475,22 @@
       }
     }
 
+    // --- Fire GA4 lead event (guarded so it no-ops if gtag absent) ---
+    //     Captures the sign-up click in GA4 just before we leave for the
+    //     survey. We send the chosen region as a custom parameter so you can
+    //     break leads down by region in GA4 reports.
+    function fireGALead(region) {
+      if (typeof window.gtag === "function") {
+        try {
+          window.gtag("event", "generate_lead", {
+            event_category: "signup",
+            event_label: "early_access",
+            region: region || ""
+          });
+        } catch (e) {}
+      }
+    }
+
     // --- Shared submit handler for BOTH forms ---
     function handleSubmit(e) {
       e.preventDefault();
@@ -476,8 +507,9 @@
 
       var utms = getUTMs();
 
-      // (a) fire Meta Pixel Lead event
+      // (a) fire Meta Pixel + GA4 lead events
       fireLead();
+      fireGALead(region);
 
       // (b) redirect to the survey with Name/Email/Region pre-filled + UTMs.
       //     Tiny timeout gives the Lead beacon a moment to dispatch.
