@@ -32,11 +32,8 @@
 
   <!-- ============================================================= -->
   <!-- ███ META PIXEL — BASE CODE ███                                 -->
-  <!-- FOUNDER ACTION REQUIRED:                                       -->
-  <!--   Replace  YOUR_PIXEL_ID  below (appears ONCE) with the        -->
-  <!--   numeric Pixel ID from Meta Events Manager.                   -->
-  <!--   Example: fbq('init', '1234567890123456');                    -->
-  <!--   Until you do this, the Lead event simply no-ops (safe).      -->
+  <!-- Pixel ID 1305834901540475 (Meta Events Manager).               -->
+  <!-- Fires PageView on load; 'Lead' fires on form submit (below).   -->
   <!-- ============================================================= -->
   <script>
     !function(f,b,e,v,n,t,s)
@@ -48,16 +45,14 @@
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
 
-    /* ▼▼▼ REPLACE  YOUR_PIXEL_ID  WITH YOUR REAL META PIXEL ID ▼▼▼ */
-    fbq('init', 'YOUR_PIXEL_ID');
-    /* ▲▲▲ ------------------------------------------------------ ▲▲▲ */
+    fbq('init', '1305834901540475');
 
     fbq('track', 'PageView');
   </script>
   <noscript>
-    <!-- ▼ Also replace YOUR_PIXEL_ID in this fallback image URL ▼ -->
+    <!-- Fallback tracking pixel for browsers with JS disabled. -->
     <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" alt="" />
+      src="https://www.facebook.com/tr?id=1305834901540475&ev=PageView&noscript=1" alt="" />
   </noscript>
   <!-- ███ END META PIXEL BASE CODE ███ -->
 
