@@ -1,0 +1,384 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Folk India — Ad</title>
+<style>
+  :root{
+    --ink:#0c0e14;
+    --generic-bg:#14161c;
+    --generic-bg2:#1b1e27;
+    --generic-line:#2a2e3a;
+    --generic-muted:#7c8296;
+    --generic-accent:#5b8cff;
+    --folk-indigo:#1c1140;
+    --folk-maroon:#5a1330;
+    --folk-saffron:#ff8a2b;
+    --folk-gold:#ffd27a;
+    --folk-cream:#fff3e2;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:#000;
+    font-family:-apple-system,"Segoe UI",system-ui,Roboto,sans-serif;}
+  #stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#000;}
+
+  /* ---------- shared phone chrome ---------- */
+  .statusbar{
+    position:absolute; top:0; left:0; right:0; height:78px; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 44px; color:#fff; font-size:30px; font-weight:600; letter-spacing:.3px;
+    opacity:0; transition:opacity .3s ease;
+  }
+  .statusbar.show{opacity:1;}
+  .statusbar .icons{display:flex; align-items:center; gap:14px;}
+  .statusbar svg{display:block;}
+
+  /* ---------- screen wrapper / crossfade ---------- */
+  .screen{
+    position:absolute; inset:0; opacity:0; transform:scale(1.05);
+    transition:opacity .38s cubic-bezier(.4,0,.2,1), transform .5s cubic-bezier(.4,0,.2,1);
+    pointer-events:none;
+  }
+  .screen.active{opacity:1; transform:scale(1); pointer-events:auto;}
+
+  .kenburns{position:absolute; inset:-40px; animation:kb 9s ease-in-out infinite alternate;}
+  @keyframes kb{from{transform:scale(1);}to{transform:scale(1.045);}}
+
+  /* ---------- flash transition ---------- */
+  #flash{position:absolute; inset:0; background:#fff; opacity:0; z-index:200; pointer-events:none;}
+  #flash.hit{animation:flashhit .32s ease-out;}
+  @keyframes flashhit{0%{opacity:0;}12%{opacity:.9;}100%{opacity:0;}}
+
+  /* ================= GENERIC APP ================= */
+  #screen-generic .bg{position:absolute; inset:0; background:linear-gradient(160deg,var(--generic-bg),var(--generic-bg2));}
+  .generic-header{position:absolute; top:110px; left:56px; right:56px;}
+  .generic-brand{color:var(--generic-muted); font-size:28px; font-weight:600; letter-spacing:2px; text-transform:uppercase;}
+  .searchwrap{position:absolute; top:200px; left:56px; right:56px;}
+  .searchbar{
+    height:104px; border-radius:28px; background:#20232d; border:2px solid var(--generic-line);
+    display:flex; align-items:center; padding:0 32px; gap:20px;
+  }
+  .searchbar svg{flex-shrink:0;}
+  .searchtext{color:#e9ebf2; font-size:34px; font-weight:500; white-space:nowrap; overflow:hidden;}
+  .caret{display:inline-block; width:3px; height:36px; background:var(--generic-accent); vertical-align:-8px; animation:blink 1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  .resultsarea{position:absolute; top:380px; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:center; flex-direction:column;}
+  .spinner{width:96px; height:96px; border-radius:50%; border:6px solid #2a2e3a; border-top-color:var(--generic-accent);
+    opacity:0; transition:opacity .25s ease; animation:spin 0.9s linear infinite;}
+  .spinner.show{opacity:1;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .noresults{opacity:0; transform:translateY(24px); transition:opacity .4s ease, transform .4s ease; text-align:center; padding:0 90px;}
+  .noresults.show{opacity:1; transform:translateY(0);}
+  .noresults .icon{margin:0 auto 36px; width:132px; height:132px; border-radius:50%; background:#20232d; display:flex; align-items:center; justify-content:center;}
+  .noresults h3{color:#e9ebf2; font-size:44px; font-weight:700; margin-bottom:16px;}
+  .noresults p{color:var(--generic-muted); font-size:30px; line-height:1.4;}
+
+  /* ================= FOLK INDIA APP ================= */
+  #screen-folk .bg{position:absolute; inset:0;
+    background:radial-gradient(1200px 900px at 20% -10%, #3a1a52 0%, transparent 60%),
+               linear-gradient(165deg,var(--folk-indigo),var(--folk-maroon) 70%, #2b0f22 100%);}
+  .folk-header{position:absolute; top:104px; left:56px; right:56px; display:flex; align-items:center; gap:22px;
+    opacity:0; transform:translateY(-14px); transition:opacity .4s ease, transform .4s ease;}
+  .folk-header.show{opacity:1; transform:translateY(0);}
+  .folk-mark{width:76px; height:76px; border-radius:22px; background:linear-gradient(135deg,var(--folk-saffron),#ffcf6b);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:34px; color:#3a1400; box-shadow:0 10px 24px rgba(255,138,43,.35);}
+  .folk-word{color:var(--folk-cream); font-size:40px; font-weight:800; letter-spacing:.5px;}
+
+  .tabs{position:absolute; top:236px; left:56px; right:56px; display:flex; gap:18px;}
+  .tab{flex:1; text-align:center; padding:24px 0; border-radius:22px; font-size:30px; font-weight:700;
+    color:#d9c9ff; background:rgba(255,255,255,.06); border:2px solid rgba(255,255,255,.08);
+    opacity:0; transform:scale(.7); transition:opacity .3s ease, transform .3s cubic-bezier(.34,1.56,.64,1), background .25s ease, color .25s ease, border-color .25s ease;
+    position:relative; overflow:visible;
+  }
+  .tab.show{opacity:1; transform:scale(1);}
+  .tab.on{background:linear-gradient(135deg,var(--folk-saffron),#ff5f6d); color:#2a0d10; border-color:transparent;}
+  .tab .ring{position:absolute; inset:-8px; border-radius:28px; border:3px solid var(--folk-saffron); opacity:0;}
+  .tab.pulse .ring{animation:ringpulse .5s ease-out;}
+  @keyframes ringpulse{0%{opacity:.9; transform:scale(.9);}100%{opacity:0; transform:scale(1.25);}}
+
+  .folk-searchbar{position:absolute; top:352px; left:56px; right:56px; height:96px; border-radius:24px;
+    background:rgba(255,255,255,.08); border:2px solid rgba(255,255,255,.14); display:flex; align-items:center; gap:18px; padding:0 30px;
+    opacity:0; transform:translateY(16px); transition:opacity .35s ease, transform .35s ease;}
+  .folk-searchbar.show{opacity:1; transform:translateY(0);}
+  .folk-searchbar .txt{color:var(--folk-cream); font-size:32px; font-weight:600; flex:1;}
+  .folk-searchbar .instant{font-size:22px; font-weight:700; color:var(--folk-saffron); background:rgba(255,138,43,.15); padding:8px 18px; border-radius:100px; letter-spacing:.5px;}
+
+  .songlist{position:absolute; top:492px; left:56px; right:56px; display:flex; flex-direction:column; gap:20px;}
+  .row{display:flex; align-items:center; gap:26px; opacity:0; transform:translateY(26px) scale(.98);
+    transition:opacity .35s ease, transform .35s cubic-bezier(.3,.7,.4,1);}
+  .row.show{opacity:1; transform:translateY(0) scale(1);}
+  .art{width:112px; height:112px; border-radius:20px; flex-shrink:0; box-shadow:0 8px 18px rgba(0,0,0,.35);}
+  .meta{flex:1; min-width:0;}
+  .meta .t{color:var(--folk-cream); font-size:33px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .meta .a{color:#c9b6e6; font-size:26px; margin-top:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .play{width:64px; height:64px; border-radius:50%; background:rgba(255,255,255,.12); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+
+  /* ================= LOGO / CTA ================= */
+  #screen-logo .bg{position:absolute; inset:0;
+    background:radial-gradient(1000px 700px at 50% 12%, #3d1a56 0%, transparent 55%),
+               radial-gradient(900px 900px at 80% 90%, rgba(255,138,43,.28) 0%, transparent 60%),
+               linear-gradient(180deg,#160b2e,#3a0f2a 65%, #1a0a1f);}
+  .logo-content{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 90px;}
+  .wordmark{opacity:0; transform:translateY(30px) scale(.92); transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1.2);}
+  .wordmark.show{opacity:1; transform:translateY(0) scale(1);}
+  .wordmark .mk{width:150px; height:150px; margin:0 auto 30px; border-radius:38px; background:linear-gradient(135deg,var(--folk-saffron),#ffcf6b);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:62px; color:#3a1400; box-shadow:0 18px 40px rgba(255,138,43,.4);}
+  .wordmark h1{color:#fff; font-size:78px; font-weight:800; letter-spacing:1px;}
+
+  .tagline{margin-top:44px; opacity:0; transform:translateY(18px); transition:opacity .5s ease, transform .5s ease;}
+  .tagline.show{opacity:1; transform:translateY(0);}
+  .tagline .l1{color:var(--folk-gold); font-size:44px; font-weight:800;}
+  .tagline .l2{color:rgba(255,255,255,.75); font-size:30px; font-weight:500; margin-top:14px;}
+
+  .cta{margin-top:58px; opacity:0; transform:translateY(18px) scale(.96); transition:opacity .45s ease, transform .45s cubic-bezier(.3,.7,.4,1.1);}
+  .cta.show{opacity:1; transform:translateY(0) scale(1);}
+  .cta .btn{display:inline-block; padding:26px 68px; border-radius:100px; background:linear-gradient(135deg,var(--folk-saffron),#ff5f6d);
+    color:#2a0d10; font-size:36px; font-weight:800; box-shadow:0 14px 34px rgba(255,95,109,.4); animation:pulse 1.8s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.045);}}
+
+  .badges{margin-top:46px; display:flex; gap:22px; opacity:0; transform:translateY(16px); transition:opacity .4s ease, transform .4s ease;}
+  .badges.show{opacity:1; transform:translateY(0);}
+  .badge{border:2px solid rgba(255,255,255,.35); border-radius:16px; padding:16px 30px; color:#fff; font-size:24px; font-weight:600; opacity:.9;}
+
+  /* ---------- captions ---------- */
+  #caption{position:absolute; left:60px; right:60px; bottom:120px; z-index:100; text-align:center;
+    color:#fff; font-size:36px; font-weight:600; line-height:1.4; text-shadow:0 2px 10px rgba(0,0,0,.6);
+    opacity:0; transition:opacity .25s ease; padding:0 20px;}
+  #caption.show{opacity:1;}
+  #caption .bgbar{position:absolute; inset:-14px -20px; background:rgba(0,0,0,.32); border-radius:20px; z-index:-1; backdrop-filter:blur(2px);}
+
+  /* ---------- grain overlay ---------- */
+  #grain{position:absolute; inset:0; z-index:300; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size:360px 360px;}
+  #vignette{position:absolute; inset:0; z-index:301; pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(0,0,0,.38) 100%);}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <div class="statusbar" id="statusbar">
+    <div>9:41</div>
+    <div class="icons">
+      <svg width="34" height="20" viewBox="0 0 34 20" fill="none"><rect x="0" y="12" width="6" height="8" rx="1" fill="#fff"/><rect x="9" y="8" width="6" height="12" rx="1" fill="#fff"/><rect x="18" y="4" width="6" height="16" rx="1" fill="#fff"/><rect x="27" y="0" width="6" height="20" rx="1" fill="#fff" opacity=".9"/></svg>
+      <svg width="30" height="20" viewBox="0 0 30 20" fill="none"><path d="M2 8c7-7 19-7 26 0l-3 3c-5-5-15-5-20 0z" fill="#fff"/><circle cx="15" cy="16" r="2.4" fill="#fff"/></svg>
+      <svg width="46" height="22" viewBox="0 0 46 22" fill="none"><rect x="1" y="1" width="38" height="20" rx="5" stroke="#fff" stroke-width="2"/><rect x="4" y="4" width="30" height="14" rx="2.5" fill="#fff"/><rect x="41" y="7" width="4" height="8" rx="1.5" fill="#fff"/></svg>
+    </div>
+  </div>
+
+  <!-- ============ SCREEN 1: generic app ============ -->
+  <div class="screen active" id="screen-generic">
+    <div class="kenburns">
+      <div class="bg"></div>
+      <div class="generic-header"><div class="generic-brand">Muzo Music</div></div>
+      <div class="searchwrap">
+        <div class="searchbar">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#7c8296" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="#7c8296" stroke-width="2" stroke-linecap="round"/></svg>
+          <div class="searchtext" id="searchtext"><span class="caret"></span></div>
+        </div>
+      </div>
+      <div class="resultsarea">
+        <div class="spinner" id="spinner1"></div>
+        <div class="noresults" id="noresults1">
+          <div class="icon"><svg width="60" height="60" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#5a5f70" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="#5a5f70" stroke-width="2" stroke-linecap="round"/><path d="M4 20L20 4" stroke="#5a5f70" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>No results found</h3>
+          <p id="noresultstext">We couldn't find anything for that search.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SCREEN 2: folk india app ============ -->
+  <div class="screen" id="screen-folk">
+    <div class="kenburns">
+      <div class="bg"></div>
+      <div class="folk-header" id="folk-header">
+        <div class="folk-mark">FI</div>
+        <div class="folk-word">Folk India</div>
+      </div>
+      <div class="tabs">
+        <div class="tab" id="tab-folk" data-tab="folk">FOLK<div class="ring"></div></div>
+        <div class="tab" id="tab-dj" data-tab="dj">DJ<div class="ring"></div></div>
+        <div class="tab" id="tab-main" data-tab="main">MAINSTREAM<div class="ring"></div></div>
+      </div>
+      <div class="folk-searchbar" id="folk-searchbar">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#ffd27a" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="#ffd27a" stroke-width="2" stroke-linecap="round"/></svg>
+        <div class="txt" id="folk-searchtxt">Kesariya Bagi</div>
+        <div class="instant">INSTANT</div>
+      </div>
+      <div class="songlist" id="songlist"></div>
+    </div>
+  </div>
+
+  <!-- ============ SCREEN 3: logo / CTA ============ -->
+  <div class="screen" id="screen-logo">
+    <div class="bg"></div>
+    <div class="logo-content">
+      <div class="wordmark" id="wordmark">
+        <div class="mk">FI</div>
+        <h1>FOLK INDIA</h1>
+      </div>
+      <div class="tagline" id="tagline">
+        <div class="l1">Har gaana. Ek hi app mein.</div>
+        <div class="l2">Every song. One app.</div>
+      </div>
+      <div class="cta" id="cta"><div class="btn">Download Now</div></div>
+      <div class="badges" id="badges">
+        <div class="badge">Get it on Google Play</div>
+        <div class="badge">Download on App Store</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="flash"></div>
+  <div id="caption"><div class="bgbar"></div><span id="captiontext"></span></div>
+  <div id="grain"></div>
+  <div id="vignette"></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+function at(seconds, fn){ setTimeout(fn, Math.round(seconds*1000)); }
+function addClass(el,c){ el.classList.add(c); }
+function removeClass(el,c){ el.classList.remove(c); }
+
+function typeText(el, text, durationMs, withCaret){
+  const chars = text.split("");
+  const step = durationMs / chars.length;
+  let i = 0;
+  el.textContent = "";
+  const caret = document.createElement("span");
+  caret.className = "caret";
+  el.appendChild(caret);
+  const iv = setInterval(() => {
+    if (i >= chars.length){ clearInterval(iv); return; }
+    caret.insertAdjacentText("beforebegin", chars[i]);
+    i++;
+  }, step);
+}
+
+function setCaption(text, seconds){
+  at(seconds, () => { $("captiontext").textContent = text; addClass($("caption"),"show"); });
+}
+function clearCaptionAt(seconds){
+  at(seconds, () => removeClass($("caption"),"show"));
+}
+
+const songsFolk = [
+  {t:"Kesariya Bagi", a:"Rekha Devi", h:"#ff8a2b,#ffcf6b"},
+  {t:"Chaita Ke Chaiti", a:"Village Ensemble", h:"#7b5bff,#ff8ac8"},
+  {t:"Ghoomar Rasiya", a:"Meera Bai Group", h:"#2bd6c4,#5b8cff"},
+  {t:"Bhojpuri Beheno", a:"Kunj Bihari", h:"#ff5f6d,#ffc371"}
+];
+const songsDJ = [
+  {t:"Kesariya Bagi (DJ Mix)", a:"DJ Ravi", h:"#5b8cff,#7b5bff"},
+  {t:"Tunak Tunak (Remix)", a:"DJ Nyx", h:"#ff5f6d,#ff8a2b"},
+  {t:"Chaita Drop Mix", a:"DJ Aarav", h:"#2bd6c4,#5b8cff"},
+  {t:"Ghoomar Club Edit", a:"DJ Meher", h:"#ff8ac8,#7b5bff"}
+];
+const songsMain = [
+  {t:"Aajkal Chart Hit", a:"Arav Khanna", h:"#ffcf6b,#ff8a2b"},
+  {t:"Neon Nights", a:"Anaya Roy", h:"#5b8cff,#2bd6c4"},
+  {t:"City Lights", a:"Vihaan Sethi", h:"#ff5f6d,#7b5bff"},
+  {t:"Midnight Drive", a:"Ira Malhotra", h:"#7b5bff,#ff8ac8"}
+];
+
+function renderList(songs){
+  const list = $("songlist");
+  list.innerHTML = "";
+  songs.forEach((s) => {
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = `
+      <div class="art" style="background:linear-gradient(135deg,${s.h})"></div>
+      <div class="meta"><div class="t">${s.t}</div><div class="a">${s.a}</div></div>
+      <div class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7z" fill="#ffd27a"/></svg></div>`;
+    list.appendChild(row);
+  });
+  requestAnimationFrame(() => {
+    [...list.children].forEach((row, i) => at(i*0.07, () => addClass(row,"show")));
+  });
+}
+
+function swapList(songs){
+  const list = $("songlist");
+  [...list.children].forEach((row) => removeClass(row,"show"));
+  setTimeout(() => renderList(songs), 220);
+}
+
+function pulseTab(tabEl, on){
+  addClass(tabEl,"show");
+  requestAnimationFrame(()=>{
+    addClass(tabEl,"pulse");
+    if (on) addClass(tabEl,"on");
+    setTimeout(()=>removeClass(tabEl,"pulse"), 500);
+  });
+}
+function setActiveTab(name){
+  ["tab-folk","tab-dj","tab-main"].forEach(id => removeClass($(id),"on"));
+  const map = {folk:"tab-folk", dj:"tab-dj", main:"tab-main"};
+  addClass($(map[name]),"on");
+}
+
+// ===================== TIMELINE =====================
+at(0.05, () => addClass($("statusbar"),"show"));
+
+// --- Phase A: generic app / search 1 ---
+at(0.50, () => typeText($("searchtext"), "Kesariya Bagi", 1300));
+at(1.85, () => addClass($("spinner1"),"show"));
+at(2.55, () => { removeClass($("spinner1"),"show"); addClass($("noresults1"),"show"); });
+setCaption("Ever searched for a folk song…", 0.35);
+setCaption("…and got nothing back?", 2.05);
+
+// exit phase A -> B (clear + retype)
+at(5.05, () => { removeClass($("noresults1"),"show"); $("noresultstext").textContent = "We couldn't find anything for that search."; });
+at(5.45, () => { $("searchtext").innerHTML = '<span class="caret"></span>'; });
+clearCaptionAt(5.35);
+
+// --- Phase B: search 2 ---
+setCaption("Or the remix everyone's playing?", 5.79);
+at(5.75, () => typeText($("searchtext"), "DJ Remix - Tunak Tunak", 1300));
+at(7.10, () => addClass($("spinner1"),"show"));
+at(7.75, () => { removeClass($("spinner1"),"show"); addClass($("noresults1"),"show"); });
+setCaption("Same story.", 8.9);
+clearCaptionAt(10.30);
+
+// --- transition to Folk India ---
+at(10.30, () => removeClass($("screen-generic"),"active"));
+at(10.42, () => { $("flash").classList.remove("hit"); void $("flash").offsetWidth; $("flash").classList.add("hit"); });
+at(10.44, () => addClass($("screen-folk"),"active"));
+at(10.50, () => addClass($("folk-header"),"show"));
+setCaption("Meet Folk India.", 10.82);
+
+at(10.65, () => pulseTab($("tab-folk"), true));
+at(10.85, () => pulseTab($("tab-dj"), false));
+at(11.05, () => pulseTab($("tab-main"), false));
+at(11.25, () => addClass($("folk-searchbar"),"show"));
+at(11.45, () => renderList(songsFolk));
+clearCaptionAt(13.00);
+
+// --- Phase D: instant demo across tabs ---
+setCaption("Every folk track. Every remix. Every chart hit. Instantly.", 13.30);
+at(15.60, () => { setActiveTab("dj"); $("folk-searchtxt").textContent = "Tunak Tunak Remix"; swapList(songsDJ); });
+at(18.00, () => { setActiveTab("main"); $("folk-searchtxt").textContent = "Trending Now"; swapList(songsMain); });
+clearCaptionAt(20.30);
+
+// --- transition to logo/CTA ---
+at(20.20, () => removeClass($("screen-folk"),"active"));
+at(20.55, () => { $("flash").classList.remove("hit"); void $("flash").offsetWidth; $("flash").classList.add("hit"); });
+at(20.58, () => { removeClass($("statusbar"),"show"); addClass($("screen-logo"),"active"); });
+at(20.80, () => addClass($("wordmark"),"show"));
+
+setCaption("Folk. DJ. Mainstream.", 20.90);
+setCaption("Why carry three apps?", 22.10);
+at(23.20, () => addClass($("tagline"),"show"));
+at(26.00, () => addClass($("cta"),"show"));
+at(27.20, () => addClass($("badges"),"show"));
+setCaption("Folk India. Download now.", 28.60);
+clearCaptionAt(31.20);
+</script>
+</body>
+</html>
